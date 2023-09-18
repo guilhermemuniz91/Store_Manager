@@ -13,7 +13,7 @@ const readProductsById = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  const { type, message } = await productService.createProduct(req.params.name);
+  const { type, message } = await productService.createProduct(req.body.name);
   if (type) return res.status(type).json({ message });
   res.status(201).json(message);
 };

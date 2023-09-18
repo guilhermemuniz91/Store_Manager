@@ -13,12 +13,12 @@ const {
     productsByIdController,
 } = require('./mocks/products.controller.mock');
 
-describe('Testes do endpoint GET na camada controller da rota /products', function () {
+describe('Testes da camada Controller da rota /products', function () {
     afterEach(function () {
       sinon.restore();
     });
   
-    it('Verifica se retorna status 200 e todos os produtos', async function () {
+    it('Verifica se retorna status 200 e todos os produtos pelo endpoint GET', async function () {
       const res = {};
       const req = {};
       res.status = sinon.stub().returns(res);
@@ -29,7 +29,7 @@ describe('Testes do endpoint GET na camada controller da rota /products', functi
       expect(res.json).to.have.been.calledWith(allProductsController);
     });
   
-    it('Verifica se retorna status 200 e o produto especifico', async function () {
+    it('Verifica se retorna status 200 e o produto especifico pelo endpoint GET', async function () {
       const res = {};
       const req = {
         params: { id: 1 },
