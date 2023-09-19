@@ -12,7 +12,14 @@ const readSalesById = async (id) => {
   return { type: null, message: result };
 };
 
+const createSale = async (sales) => {
+  const saleId = await salesModel.createSale();
+  const result = await salesModel.createSaleProducts({ id: saleId, sales });
+  return { type: null, message: result };
+};
+
 module.exports = {
     readAllSales,
     readSalesById,
+    createSale,
 };
