@@ -17,8 +17,17 @@ const createProduct = async (name) => {
   return { type: null, message: result };
 };
 
+const deleteProduct = async (idString) => {
+  const id = Number(idString);
+  const { type } = await readProductsById(id);
+  if (type) return { type: 404, message: 'Product not found' };
+  const result = await productModel.deleteProduct(id);
+  return { type: null, message: result };
+};
+
 module.exports = {
     readAllProducts,
     readProductsById,
     createProduct,
+    deleteProduct,
 };
