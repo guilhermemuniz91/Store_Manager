@@ -12,14 +12,13 @@ const readSalesById = async (id) => {
   return { type: null, message: result };
 };
 
-const createSale = async (sales) => {
-  const saleId = await salesModel.createSale();
-  const result = await salesModel.createSaleProducts({ id: saleId, sales });
-  return { type: null, message: result };
+const createSales = async (salesArray) => {
+  const salesId = await salesModel.createSales(salesArray);
+  return { type: null, message: { id: salesId, itemsSold: salesArray } };
 };
 
 module.exports = {
     readAllSales,
     readSalesById,
-    createSale,
+    createSales,
 };

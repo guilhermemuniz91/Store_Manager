@@ -38,4 +38,18 @@ describe('Testes da camada Controller da rota /sales', function () {
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
     });
+
+    it('Verifica se retorna status 201 e a adição de uma nova venda pelo endpoint POST', async function () {
+      sinon.stub(salesService, 'createSales').resolves({ type: null, message: { id: 88, itemsSold: sales } });
+  
+      const req = { body: { sales } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+  
+      await salesController.createSale(req, res);
+  
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith({ id: 88, itemsSold: sales });
+    });
 });

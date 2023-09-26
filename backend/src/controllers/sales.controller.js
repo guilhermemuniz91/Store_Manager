@@ -12,7 +12,7 @@ const readSalesById = async (req, res) => {
 };
 
 const createSale = async (req, res) => {
-  const { type, message } = await salesService.createSale(req.body);
+  const { type, message } = await salesService.createSales(req.body);
   if (type) return res.status(404).json({ message });
   return res.status(201).json(message);
 };

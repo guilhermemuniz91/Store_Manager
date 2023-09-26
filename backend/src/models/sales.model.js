@@ -31,46 +31,22 @@ const readSalesById = async (saleId) => {
   return camelize(salesById); 
 };
 
-// const createSale = async () => {
-//   const [{ insertId }] = await connection.execute(
-//     'INSERT INTO StoreManager.sales () VALUE ()',
-//   );
-//   return { insertId };
-// };
-
-// const createSaleProducts = async (id, { productId, quantity }) => {
-//   await connection.execute(
-//     'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUE (?, ?, ?)',
-//     [id, productId, quantity],
-//   );
-//   const objReturn = { id, productId, quantity };
-//   return objReturn;
-// };
-
-const createSale = async () => {
+const createSales = async (arraySales) => {
   const [{ insertId }] = await connection.execute(
-    'INSERT INTO StoreManager.sales (date) VALUE (NOW())',
+    'INSERT INTO StoreManager.sales () VALUES ();',
   );
+  const promise = arraySales.map(async ({ productId, quantity }) => {
+     await connection.execute(
+       'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?);',
+       [insertId, productId, quantity],
+     );
+  });
+  await Promise.all(promise);
   return insertId;
-};
-
-const createSaleProducts = async ({ id, sales }) => {
-  const queries = [];
-  sales.forEach(({ productId, quantity }) => {
-    queries.push(
-      connection.execute(
-        'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
-        [id, productId, quantity],
-      ),
-    );
-  });  
-  await Promise.all(queries);
-  return { id, itemsSold: sales };
 };
 
 module.exports = {
   readAllSales,
   readSalesById,
-  createSale,
-  createSaleProducts,
+  createSales,
 };

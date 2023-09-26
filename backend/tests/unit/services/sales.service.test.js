@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-
+const productsModel = require('../../../src/models/products.model');
 const salesModel = require('../../../src/models/sales.model');
 const salesService = require('../../../src/services/sales.service');
 
@@ -18,6 +18,14 @@ describe('Testes da camada Service da rota /sales', function () {
     sinon.stub(salesModel, 'readSalesById').resolves(salesProductsResult);
     const response = { type: null, message: salesProductsResult };
     const result = await salesService.readSalesById(1);
+    expect(result).to.be.deep.equal(response);
+  });
+
+  it('Verifica se retorna status 201 e a adição de uma nova venda pelo endpoint POST', async function () {
+    sinon.stub(productsModel, 'readProductsById').resolves(true);
+    sinon.stub(salesModel, 'createSales').resolves(88);
+    const response = { type: null, message: { id: 88, itemsSold: sales } };
+    const result = await salesService.createSales(sales);
     expect(result).to.be.deep.equal(response);
   });
 

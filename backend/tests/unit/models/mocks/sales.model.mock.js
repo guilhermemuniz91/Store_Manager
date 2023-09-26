@@ -48,10 +48,18 @@ const sales = [
       quantity: 10,
     },
   ];
+
+  const getByIdMockWithData = [{
+    // date: '2023-05-01T22:14:17.000Z',
+    date: '2023-09-18 19:27:25',
+    productId: 3,
+    quantity: 15,
+  }];
   
   module.exports = {
     sales,
     salesProducts,
     salesProductsById1,
     salesProductsResult,
+    getByIdMockWithData,
   };
