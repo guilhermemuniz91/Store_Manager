@@ -19,31 +19,5 @@ describe('Testes da camada Model da rota /sales', function () {
     expect(result).to.be.deep.equal(salesProductsResult);
   });
 
-//   it('Registra uma venda e retorna o ID', async function () {
-//     sinon.stub(connection, 'execute').resolves([{ insertId: 42 }]);
-//     const result = await salesModel.insertSale();
-//     expect(result).to.be.deep.equal(42);
-//   });
-
-//   it('Registra um produto em uma venda', async function () {
-//     sinon.stub(connection, 'execute').resolves([{ insertId: 42 }]);
-//     const { productId, quantity } = salesProductsResult[0];
-//     const result = await salesModel.insertProductsSale(18, { productId, quantity });
-//     expect(result).to.be.deep.equal({ id: 18, productId, quantity });
-//   });
-
-//   it('Atualiza produtos de uma venda', async function () {
-//     sinon.stub(connection, 'execute').resolves();
-//     const { productId } = salesProductsResult[0];
-//     const result = await salesModel.updateProductsSale(18, { productId, quantity: 90 });
-//     expect(result).to.be.deep.equal({ id: 18, productId, quantity: 90 });
-//   });
-
-//   it('Deleta a venda e seus produtos', async function () {
-//     sinon.stub(connection, 'execute').resolves();
-//     const result = await salesModel.deleteSale(18);
-//     expect(result).to.be.deep.equal();
-//   });
-
   afterEach(sinon.restore);
 });
