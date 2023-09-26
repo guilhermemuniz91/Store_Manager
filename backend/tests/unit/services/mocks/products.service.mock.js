@@ -12,5 +12,10 @@ const allProducts = [
       name: 'Escudo do Capitão América',
     },
   ];
+
+  const productServiceById = {
+    id: 1,
+    name: 'Martelo de Thor',
+  };
   
-  module.exports = { allProducts };
+  module.exports = { allProducts, productServiceById };

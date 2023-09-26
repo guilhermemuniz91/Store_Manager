@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const productsService = require('../../../src/services/products.service');
 const productsModel = require('../../../src/models/products.model');
-const { allProducts } = require('./mocks/products.service.mock');
+const { allProducts, productServiceById } = require('./mocks/products.service.mock');
 
 describe('Testes da camada Service da rota /products', function () {
   afterEach(function () {
@@ -21,5 +21,19 @@ describe('Testes da camada Service da rota /products', function () {
     const result = await productsService.readProductsById(1);
     expect(result.type).to.be.equal(null);
     expect(result.message).to.be.deep.equal(allProducts[0]);
+  });
+
+  it('Verifica se retorna um erro se o productId não existir pelo endpoint GET', async function () {
+    sinon.stub(productsModel, 'readProductsById').resolves(undefined);
+    const result = await productsService.readProductsById(999);
+    expect(result.type).to.equal(404);
+    expect(result.message).to.equal('Product not found');
+  });
+
+  it('Verifica se retorna a adição correta de um novo produto pelo endpoint POST', async function () {
+    sinon.stub(productsModel, 'createProduct').resolves(productServiceById);
+    const response = { type: null, message: productServiceById };
+    const result = await productsService.createProduct('Martelo de Thor');
+    expect(result).to.be.deep.equal(response);
   });
 });

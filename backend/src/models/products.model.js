@@ -32,9 +32,21 @@ const deleteProduct = async (id) => {
   return rowDeleted;
 };
 
+const updateProduct = async (id, name) => {
+  const [results] = await connection.execute('SELECT * FROM products', []);
+  const toUpdate = results.findIndex((result) => (result.id === id));
+  results.splice(toUpdate, 1, { id, name });
+  await connection.execute(
+    'UPDATE products SET name = ? WHERE id = ?',
+    [name, id],
+  );
+  return results[toUpdate];
+};
+
 module.exports = {
   readAllProducts,
   readProductsById,
   createProduct,
   deleteProduct,
+  updateProduct,
 };
