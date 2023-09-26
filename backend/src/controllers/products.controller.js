@@ -20,13 +20,13 @@ const createProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const { type, message } = await productService.deleteProduct(req.params.id);
-  if (type) return res.status(type).json({ message });
+  if (type) return res.status(404).json({ message });
   res.status(204).end();
 };
 
 const updateProduct = async (req, res) => {
   const { type, message } = await productService.updateProduct(req.params.id, req.body.name);
-  if (type) return res.status(type).json({ message });
+  if (type) return res.status(404).json({ message });
   res.status(200).json(message);
 };
 

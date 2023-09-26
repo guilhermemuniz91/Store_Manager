@@ -45,10 +45,10 @@ describe('Testes da camada Controller da rota /products', function () {
       const req = { params: { id: 999 } };
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
-      sinon.stub(productsService, 'readProductsById').resolves({ type: 404, message: 'Product not found' });
+      sinon.stub(productsService, 'readProductsById').resolves({ type: 404, message: 'Produto não encontrado' });
       await productsController.readProductsById(req, res);
       expect(res.status).to.have.been.calledWith(404);
-      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+      expect(res.json).to.have.been.calledWith({ message: 'Produto não encontrado' });
     });
 
     it('Verifica se retorna status 201 e a adição de um novo produto pelo endpoint POST', async function () {
@@ -119,6 +119,35 @@ describe('Testes da camada Controller da rota /products', function () {
       res.json = sinon.stub().returns();
   
       await productsController.deleteProduct(req, res);
+  
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+
+    it('Verifica se atualiza com sucesso um produto específico através do productId pelo endpoint PUT', async function () {
+      sinon.stub(productsService, 'updateProduct').resolves({ type: null, message: { id: 1, name: 'Produto Atualizado' } });
+  
+      const req = { params: { id: 1 }, body: { name: 'Produto Atualizado' } };
+  
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+  
+      await productsController.updateProduct(req, res);
+  
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith({ id: 1, name: 'Produto Atualizado' });
+    });
+  
+    it('Verifica se retorna um erro ao tentar atualizar um produto específico através de um productId inválido pelo endpoint PUT', async function () {
+      sinon.stub(productsService, 'updateProduct').resolves({ type: 404, message: 'Product not found' });
+  
+      const req = { params: { id: 18451495 }, body: { name: 'Produto Atualizado' } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+  
+      await productsController.updateProduct(req, res);
   
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: 'Product not found' });

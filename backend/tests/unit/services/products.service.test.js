@@ -38,17 +38,32 @@ describe('Testes da camada Service da rota /products', function () {
   });
 
   it('Verifica se deleta com sucesso um produto específico através do productId pelo endpoint DELETE', async function () {
-    sinon.stub(productsModel, 'readProductsById').resolves(true);
-    sinon.stub(productsModel, 'deleteProduct').resolves();
-    const response = { type: null, message: undefined };
+    sinon.stub(productsModel, 'deleteProduct').resolves(undefined);
+    sinon.stub(productsModel, 'readProductsById').resolves({ id: 1, name: 'Martelo de Thor' });
     const result = await productsService.deleteProduct(1);
-    expect(result).to.be.deep.equal(response);
+    expect(result.type).to.be.equal(null);
+    expect(result.message).to.deep.equal([]);
   });
 
   it('Verifica se retorna um erro ao tentar deletar um produto específico através de um productId inválido pelo endpoint DELETE', async function () {
+    sinon.stub(productsModel, 'readProductsById').resolves(undefined);
+    const result = await productsService.deleteProduct(999);
+    expect(result.type).to.be.equal(404);
+    expect(result.message).to.deep.equal('Product not found');
+  });
+
+  it('Verifica se atualiza com sucesso um produto específico através do productId pelo endpoint PUT', async function () {
+    sinon.stub(productsModel, 'readProductsById').resolves(true);
+    sinon.stub(productsModel, 'updateProduct').resolves({ id: 1, name: 'Produto Atualizado' });
+    const response = { type: null, message: { id: 1, name: 'Produto Atualizado' } };
+    const result = await productsService.updateProduct('1', 'Martelo de Thor');
+    expect(result).to.be.deep.equal(response);
+  });
+
+  it('Verifica se retorna um erro ao tentar atualizar um produto específico através de um productId inválido pelo endpoint PUT', async function () {
     sinon.stub(productsModel, 'readProductsById').resolves(false);
     const response = { type: 404, message: 'Product not found' };
-    const result = await productsService.deleteProduct(999);
+    const result = await productsService.updateProduct('999', 'Martelo de Thor');
     expect(result).to.be.deep.equal(response);
   });
 });

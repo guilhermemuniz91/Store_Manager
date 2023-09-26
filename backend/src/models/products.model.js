@@ -25,22 +25,18 @@ const createProduct = async (name) => {
 };
 
 const deleteProduct = async (id) => {
-  const [{ deletedRow }] = await connection.execute(
+  await connection.execute(
     'DELETE FROM StoreManager.products WHERE id = ?',
     [id],
   );
-  return deletedRow;
 };
 
-const updateProduct = async (id, name) => {
-  const [results] = await connection.execute('SELECT * FROM products', []);
-  const toUpdate = results.findIndex((result) => (result.id === id));
-  results.splice(toUpdate, 1, { id, name });
+const updateProduct = async ({ name, id }) => {
   await connection.execute(
-    'UPDATE products SET name = ? WHERE id = ?',
+    'UPDATE StoreManager.products SET name = ? WHERE id = ?',
     [name, id],
   );
-  return results[toUpdate];
+  return { id, name };
 };
 
 module.exports = {
