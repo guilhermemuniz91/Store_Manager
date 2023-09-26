@@ -23,8 +23,8 @@ describe('Testes da camada Model da rota /products', function () {
   });
 
   it('Verifica se retorna a adição correta de um novo produto pelo endpoint POST', async function () {
-    sinon.stub(connection, 'execute').resolves([{ insertId: 42 }]);
+    sinon.stub(connection, 'execute').resolves([{ insertId: 39 }]);
     const result = await productsModel.createProduct('Novo Produto');
-    expect(result).to.be.deep.equal({ id: 42, name: 'Novo Produto' });
+    expect(result).to.be.deep.equal({ id: 39, name: 'Novo Produto' });
   });
 });

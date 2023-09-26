@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const productsService = require('../../../src/services/products.service');
 const productsModel = require('../../../src/models/products.model');
-const { allProducts, productServiceById } = require('./mocks/products.service.mock');
+const { allProducts, newProduct } = require('./mocks/products.service.mock');
 
 describe('Testes da camada Service da rota /products', function () {
   afterEach(function () {
@@ -30,10 +30,10 @@ describe('Testes da camada Service da rota /products', function () {
     expect(result.message).to.equal('Product not found');
   });
 
-  it('Verifica se retorna a adição correta de um novo produto pelo endpoint POST', async function () {
-    sinon.stub(productsModel, 'createProduct').resolves(productServiceById);
-    const response = { type: null, message: productServiceById };
-    const result = await productsService.createProduct('Martelo de Thor');
+  it('Verifica se retorna a inclusão correta de um novo produto pelo endpoint POST', async function () {
+    sinon.stub(productsModel, 'createProduct').resolves(newProduct);
+    const response = { type: null, message: newProduct };
+    const result = await productsService.createProduct('Varinha do Harry Potter');
     expect(result).to.be.deep.equal(response);
   });
 });

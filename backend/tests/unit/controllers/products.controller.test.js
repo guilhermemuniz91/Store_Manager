@@ -62,7 +62,7 @@ describe('Testes da camada Controller da rota /products', function () {
       expect(res.json).to.have.been.calledWith({ id: 5, name: 'Novo Produto' });
     });
 
-    it('Verifica se returna status 400 se product.name não existir pelo endpoint POST', async function () {
+    it('Verifica se returna status 400 caso product.name não existir pelo endpoint POST', async function () {
       const res = {};
       const req = { body: {} };
       res.status = sinon.stub().returns(res);
@@ -76,7 +76,7 @@ describe('Testes da camada Controller da rota /products', function () {
       expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
     });
 
-    it('Verifica se returna status 422 se product.name tiver menos que 5 caracteres pelo endpoint POST', async function () {
+    it('Verifica se returna status 422 caso product.name tiver menos que 5 caracteres pelo endpoint POST', async function () {
       const res = {};
       const req = {
         body: {

@@ -13,9 +13,9 @@ const allProducts = [
     },
   ];
 
-  const productServiceById = {
+  const newProduct = {
     id: 1,
-    name: 'Martelo de Thor',
+    name: 'Varinha do Harry Potter',
   };
   
-  module.exports = { allProducts, productServiceById };
+  module.exports = { allProducts, newProduct };
