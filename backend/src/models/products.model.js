@@ -25,11 +25,11 @@ const createProduct = async (name) => {
 };
 
 const deleteProduct = async (id) => {
-  const [{ rowDeleted }] = await connection.execute(
+  const [{ deletedRow }] = await connection.execute(
     'DELETE FROM StoreManager.products WHERE id = ?',
     [id],
   );
-  return rowDeleted;
+  return deletedRow;
 };
 
 const updateProduct = async (id, name) => {

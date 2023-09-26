@@ -36,4 +36,19 @@ describe('Testes da camada Service da rota /products', function () {
     const result = await productsService.createProduct('Varinha do Harry Potter');
     expect(result).to.be.deep.equal(response);
   });
+
+  it('Verifica se deleta com sucesso um produto específico através do productId pelo endpoint DELETE', async function () {
+    sinon.stub(productsModel, 'readProductsById').resolves(true);
+    sinon.stub(productsModel, 'deleteProduct').resolves();
+    const response = { type: null, message: undefined };
+    const result = await productsService.deleteProduct(1);
+    expect(result).to.be.deep.equal(response);
+  });
+
+  it('Verifica se retorna um erro ao tentar deletar um produto específico através de um productId inválido pelo endpoint DELETE', async function () {
+    sinon.stub(productsModel, 'readProductsById').resolves(false);
+    const response = { type: 404, message: 'Product not found' };
+    const result = await productsService.deleteProduct(999);
+    expect(result).to.be.deep.equal(response);
+  });
 });

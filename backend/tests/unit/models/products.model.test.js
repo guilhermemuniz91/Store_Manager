@@ -27,4 +27,10 @@ describe('Testes da camada Model da rota /products', function () {
     const result = await productsModel.createProduct('Novo Produto');
     expect(result).to.be.deep.equal({ id: 39, name: 'Novo Produto' });
   });
+
+  it('Verifica se deleta com sucesso um produto específico através do productId pelo endpoint DELETE', async function () {
+    sinon.stub(connection, 'execute').resolves([{ deletedRow: 1 }]);
+    const result = await productsModel.deleteProduct(1);
+    expect(result).to.be.deep.equal(1);
+  });
 });

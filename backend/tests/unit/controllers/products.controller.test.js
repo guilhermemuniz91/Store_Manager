@@ -42,7 +42,7 @@ describe('Testes da camada Controller da rota /products', function () {
 
     it('Verifica se retorna status 404 e um erro se o productId não existir pelo endpoint GET', async function () {
       const res = {};
-      const req = { params: { id: 9999 } };
+      const req = { params: { id: 999 } };
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(productsService, 'readProductsById').resolves({ type: 404, message: 'Product not found' });
@@ -94,5 +94,33 @@ describe('Testes da camada Controller da rota /products', function () {
       expect(res.json).to.have.been.calledWith({
         message: '"name" length must be at least 5 characters long',
       });
+    });
+
+    it('Verifica se deleta com sucesso um produto específico através do productId pelo endpoint DELETE', async function () {
+      sinon.stub(productsService, 'deleteProduct').resolves({ type: null, message: undefined });
+  
+      const req = { params: { id: 1 } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns();
+  
+      await productsController.deleteProduct(req, res);
+  
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.end).to.have.been.calledWith();
+    });
+  
+    it('Verifica se retorna um erro ao tentar deletar um produto específico através de um productId inválido pelo endpoint DELETE', async function () {
+      sinon.stub(productsService, 'deleteProduct').resolves({ type: 404, message: 'Product not found' });
+  
+      const req = { params: { id: 999 } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+  
+      await productsController.deleteProduct(req, res);
+  
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
     });
 });
